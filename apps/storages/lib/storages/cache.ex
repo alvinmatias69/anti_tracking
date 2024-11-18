@@ -9,8 +9,12 @@ defmodule Storages.Cache do
     GenServer.call(__MODULE__, {:lookup, site_name})
   end
 
-  def add({site_name, parameters}) do
+  def add(site_name, parameters) do
     GenServer.cast(__MODULE__, {:add, {site_name, parameters}})
+  end
+
+  def update(site_name, parameters) do
+    GenServer.cast(__MODULE__, {:update, {site_name, parameters}})
   end
 
   @impl true
@@ -30,6 +34,14 @@ defmodule Storages.Cache do
   def handle_cast({:add, {site_name, parameters}}, cache) do
     case Map.fetch(cache, site_name) do
       :error -> {:noreply, Map.put(cache, site_name, parameters)}
+      {:ok, old_parameters} -> {:noreply, Map.put(cache, site_name, old_parameters ++ parameters)}
+    end
+  end
+
+  @impl true
+  def handle_cast({:update, {site_name, parameters}}, cache) do
+    case Map.fetch(cache, site_name) do
+      :error -> {:noreply, cache}
       {:ok, old_parameters} -> {:noreply, Map.put(cache, site_name, old_parameters ++ parameters)}
     end
   end

@@ -7,6 +7,10 @@ defmodule Storages.Repo.Migrations.CreateSiteParams do
       add(:parameter_id, references(:parameters))
     end
 
-    create(unique_index(:site_parameters, [:site_id, :parameter_id]))
+    create(
+      unique_index(:site_parameters, [:site_id, :parameter_id],
+        name: :site_parameters_composite_index
+      )
+    )
   end
 end
