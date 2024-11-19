@@ -56,4 +56,14 @@ defmodule Storages do
         []
     end
   end
+
+  def unlink(site_name \\ "", parameter_names \\ []) do
+    site_id =
+      site_name
+      |> Storages.Util.normalize_url()
+      |> Storages.Site.get_id_by_name()
+
+    parameter_ids = Storages.Parameter.get_ids_by_names(parameter_names)
+    Storages.SiteParameter.delete(site_id, parameter_ids)
+  end
 end
