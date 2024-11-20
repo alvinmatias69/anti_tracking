@@ -17,6 +17,10 @@ defmodule Storages.Cache do
     GenServer.cast(__MODULE__, {:update, {site_name, parameters}})
   end
 
+  def reset() do
+    GenServer.cast(__MODULE__, {:reset})
+  end
+
   @impl true
   def init(:ok) do
     {:ok, %{}}
@@ -44,5 +48,10 @@ defmodule Storages.Cache do
       :error -> {:noreply, cache}
       {:ok, old_parameters} -> {:noreply, Map.put(cache, site_name, old_parameters ++ parameters)}
     end
+  end
+
+  @impl true
+  def handle_cast({:reset}, _cache) do
+    {:noreply, %{}}
   end
 end

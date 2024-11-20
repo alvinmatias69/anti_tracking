@@ -64,6 +64,7 @@ defmodule Storages do
       |> Storages.Site.get_id_by_name()
 
     parameter_ids = Storages.Parameter.get_ids_by_names(parameter_names)
-    Storages.SiteParameter.delete(site_id, parameter_ids)
+    {_, nil} = Storages.SiteParameter.delete(site_id, parameter_ids)
+    Storages.Cache.reset()
   end
 end
