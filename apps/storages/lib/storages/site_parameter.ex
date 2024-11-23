@@ -10,6 +10,7 @@ defmodule Storages.SiteParameter do
     field(:parameter_id, :integer)
   end
 
+  @spec changeset(%Storages.SiteParameter{}, map()) :: %Ecto.Changeset{}
   def changeset(site_parameter, params \\ %{}) do
     site_parameter
     |> cast(params, [:site_id, :parameter_id])
@@ -19,6 +20,7 @@ defmodule Storages.SiteParameter do
     )
   end
 
+  @spec insert_ignore(map()) :: :ok | {:nochange, list()}
   def insert_ignore(payload) do
     %Storages.SiteParameter{}
     |> changeset(payload)
@@ -32,8 +34,10 @@ defmodule Storages.SiteParameter do
     end
   end
 
+  @spec delete(nil, []) :: {0, nil}
   def delete(nil, []), do: {0, nil}
 
+  @spec delete(integer(), [integer()]) :: {integer(), any()}
   def delete(site_id, parameter_ids) do
     Storages.SiteParameter
     |> build_site_condition(site_id)
@@ -48,4 +52,11 @@ defmodule Storages.SiteParameter do
 
   defp build_param_condition(entity, parameter_ids),
     do: entity |> where([sp], sp.parameter_id in ^parameter_ids)
+
+  @spec insert_all([%{parameter_id: integer(), site_id: integer()}] | Ecto.Query.t()) ::
+          {any(), nil | list()}
+  def insert_all(payload) do
+    Storages.SiteParameter
+    |> Storages.Repo.insert_all(payload, on_conflict: :nothing)
+  end
 end

@@ -9,17 +9,5 @@
 # move said applications out of the umbrella.
 import Config
 
-config :storages, Storages.Repo,
-  database: "storages_repo",
-  username: "storage_user",
-  password: "qwe123123",
-  hostname: "localhost"
-
 config :storages, ecto_repos: [Storages.Repo]
-# Sample configuration:
-#
-#     config :logger, :console,
-#       level: :info,
-#       format: "$date $time [$level] $metadata$message\n",
-#       metadata: [:user_id]
-#
+import_config "#{config_env()}.exs"

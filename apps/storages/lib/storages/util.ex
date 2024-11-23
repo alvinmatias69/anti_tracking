@@ -14,20 +14,4 @@ defmodule Storages.Util do
     |> String.replace_prefix("https://", "")
     |> String.replace_prefix("www.", "")
   end
-
-  def get_or_insert(payload, entity, module) do
-    case Storages.Repo.get_by(module, name: payload.name) do
-      nil ->
-        entity
-        |> module.changeset(payload)
-        |> Storages.Repo.insert()
-        |> case do
-          {:ok, result} ->
-            result
-        end
-
-      result ->
-        result
-    end
-  end
 end
