@@ -6,3 +6,8 @@ config :storages, Storages.Repo,
   database: "test_db",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :web,
+  port: 8080,
+  username: "test",
+  password: "test"

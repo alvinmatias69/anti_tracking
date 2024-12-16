@@ -31,7 +31,7 @@ defmodule Storages do
     |> case do
       {:error, changeset} ->
         Logger.error("changeset error: #{changeset.errors}")
-        {:error, "error while fetching / inserting data to db"}
+        {:server_error, "error while fetching / inserting data to db"}
 
       {:ok, site_id} ->
         Logger.info("success fetch / insert with id: #{site_id}")
