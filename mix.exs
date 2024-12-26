@@ -6,7 +6,14 @@ defmodule AntiTracking.MixProject do
       apps_path: "apps",
       version: "0.1.0",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      releases: [
+        web: [
+          version: "0.0.1",
+          include_executables_for: [:unix],
+          applications: [web: :permanent, storages: :permanent]
+        ]
+      ]
     ]
   end
 
