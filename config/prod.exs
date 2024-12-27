@@ -10,3 +10,6 @@ config :web,
   port: System.get_env("WEB_PORT"),
   username: System.get_env("WEB_USERNAME"),
   password: System.get_env("WEB_PASSWORD")
+
+config :bot,
+  url: System.get_env("BOT_WS_URL")

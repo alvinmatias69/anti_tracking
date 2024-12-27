@@ -1,7 +1,8 @@
 defmodule Storages do
   require Logger
 
-  @spec insert(String.t(), [String.t()], {:update_cache, true}) :: {:error, String.t()} | :ok
+  @spec insert(String.t(), [String.t()], {:update_cache, true}) ::
+          {:server_error, String.t()} | {:error, String.t()} | :ok
   def insert(site_name, parameter_names, {:update_cache, true}) do
     case insert(site_name, parameter_names) do
       :ok ->
@@ -23,7 +24,8 @@ defmodule Storages do
     {:error, "required at least one parameter name"}
   end
 
-  @spec insert(String.t(), [String.t()]) :: {:error, String.t()} | :ok
+  @spec insert(String.t(), [String.t()]) ::
+          {:server_error, String.t()} | {:error, String.t()} | :ok
   def insert(site_name, parameter_names) do
     site_name
     |> Storages.Util.normalize_url()
@@ -55,8 +57,9 @@ defmodule Storages do
 
   @spec get(String.t(), {:with_cache, true}) :: [String.t()]
   def get(site_name, {:with_cache, true}) do
+    site_name = Storages.Util.normalize_url(site_name)
+
     site_name
-    |> Storages.Util.normalize_url()
     |> Storages.Cache.lookup()
     |> case do
       [] ->

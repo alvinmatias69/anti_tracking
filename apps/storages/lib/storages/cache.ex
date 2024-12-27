@@ -29,7 +29,7 @@ defmodule Storages.Cache do
   @impl true
   def handle_call({:lookup, site_name}, _from, cache) do
     case Map.fetch(cache, site_name) do
-      {:ok, parameters} -> {:reply, parameters, cache}
+      {:ok, parameters} -> {:reply, MapSet.to_list(parameters), cache}
       _ -> {:reply, [], cache}
     end
   end
@@ -37,16 +37,24 @@ defmodule Storages.Cache do
   @impl true
   def handle_cast({:add, {site_name, parameters}}, cache) do
     case Map.fetch(cache, site_name) do
-      :error -> {:noreply, Map.put(cache, site_name, parameters)}
-      {:ok, old_parameters} -> {:noreply, Map.put(cache, site_name, old_parameters ++ parameters)}
+      :error ->
+        {:noreply, Map.put(cache, site_name, MapSet.new(parameters))}
+
+      {:ok, old_parameters} ->
+        {:noreply,
+         Map.put(cache, site_name, MapSet.union(old_parameters, MapSet.new(parameters)))}
     end
   end
 
   @impl true
   def handle_cast({:update, {site_name, parameters}}, cache) do
     case Map.fetch(cache, site_name) do
-      :error -> {:noreply, cache}
-      {:ok, old_parameters} -> {:noreply, Map.put(cache, site_name, old_parameters ++ parameters)}
+      :error ->
+        {:noreply, cache}
+
+      {:ok, old_parameters} ->
+        {:noreply,
+         Map.put(cache, site_name, MapSet.union(old_parameters, MapSet.new(parameters)))}
     end
   end
 

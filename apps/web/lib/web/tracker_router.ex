@@ -28,7 +28,7 @@ defmodule Web.TrackerRouter do
   post "/" do
     result =
       case parse_payload(conn.body_params) do
-        {:ok, payload} -> Storages.insert(payload.site, payload.parameters)
+        {:ok, payload} -> Storages.insert(payload.site, payload.parameters, {:update_cache, true})
         error -> error
       end
 

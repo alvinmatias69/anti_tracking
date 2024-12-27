@@ -11,3 +11,6 @@ config :web,
   port: 8080,
   username: "test",
   password: "test"
+
+config :bot,
+  url: "ws://localhost:8000/connect"
