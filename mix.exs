@@ -11,7 +11,12 @@ defmodule AntiTracking.MixProject do
         web: [
           version: "0.0.1",
           include_executables_for: [:unix],
-          applications: [web: :permanent, storages: :permanent, bot: :permanent]
+          applications: [web: :permanent, storages: :permanent]
+        ],
+        bot: [
+          version: "0.0.1",
+          include_executables_for: [:unix],
+          applications: [storages: :permanent, bot: :permanent]
         ]
       ]
     ]
