@@ -6,6 +6,7 @@ The project is an umbrella one, consist of three apps:
 - `:bot`
 - `:storages`
 - `:web`
+
 Please refer to each apps in the `apps/` directory for more informations.
 
 ## Quickstart
@@ -22,14 +23,12 @@ $ iex -S mix
 
 ## Releases
 
-This project has two releases:
-- `web`: web interface and data management
-- `bot`: interface to websocket as bot
-
-Each can be compiled individually.
+This project has a single release:
+- `bot`: Complete application including bot client, webserver, and database interface
 
 ``` sh
-$ MIX_ENV=prod mix release <release_name>
+$ MIX_ENV=prod mix compile
+$ MIX_ENV=prod mix release
 ```
 
-Please note that you need to supply required environment variables for releases. See `.env.example` for variable list.
+Please note that you need to supply required environment variables for compiling. See `.env.example` for variable list.
